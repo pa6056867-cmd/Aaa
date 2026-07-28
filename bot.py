@@ -1,3 +1,4 @@
+from handlers.request import router as request_router
 import asyncio
 import logging
 
@@ -13,7 +14,7 @@ logging.basicConfig(
 
 dp.include_router(services_router)
 async def main():
-
+dp.include_router(request_router)
     bot = Bot(
         token=BOT_TOKEN
     )
@@ -31,3 +32,4 @@ async def main():
 if __name__ == "__main__":
 
     asyncio.run(main())
+
