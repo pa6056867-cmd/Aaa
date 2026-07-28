@@ -5,6 +5,7 @@ from aiogram import Bot, Dispatcher
 
 from config import BOT_TOKEN
 
+from handlers.start import router as start_router
 
 logging.basicConfig(
     level=logging.INFO
@@ -18,8 +19,7 @@ async def main():
     )
 
     dp = Dispatcher()
-
-
+ dp.include_router(start_router)
     print("🤖 کافی‌نت آنلاین فعال شد")
 
 
