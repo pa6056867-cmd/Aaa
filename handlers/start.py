@@ -1,3 +1,4 @@
+from keyboards.main_menu import main_menu
 cafinet-online-bot
 │
 ├── bot.py
@@ -13,8 +14,12 @@ router = Router()
 
 @router.message(Command("start"))
 async def start(message: Message):
-    await message.answer(
-        "🌹 سلام!\n"
-        "به ربات «کافی‌نت آنلاین» خوش اومدی.\n\n"
-        "برای استفاده از خدمات، از منوی ربات استفاده کن."
+    await message.await message.answer(
+    """
+🌹 سلام، به کافی‌نت آنلاین خوش اومدی.
+
+لطفاً یکی از گزینه‌های زیر رو انتخاب کن.
+""",
+    reply_markup=main_menu()
     )
+
