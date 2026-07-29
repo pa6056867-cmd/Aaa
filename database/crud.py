@@ -30,3 +30,39 @@ def add_order(full_name, phone, service, description):
     conn.close()
 
     return order_id
+def get_stats():
+
+    conn = sqlite3.connect(DB_NAME)
+
+    cur = conn.cursor()
+
+
+    cur.execute(
+        "SELECT COUNT(*) FROM orders"
+    )
+
+    orders = cur.fetchone()[0]
+
+
+    cur.execute(
+        "SELECT COUNT(DISTINCT user_id) FROM orders"
+    )
+
+    users = cur.fetchone()[0]
+
+
+    cur.execute(
+        """
+        SELECT SUM(amount)
+        FROM finance
+        WHERE type='درآمد'
+        """
+    )
+
+    income = cur.fetchone()[0]
+
+
+    conn.close()
+
+
+    return orders, users, income or 0
