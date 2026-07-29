@@ -1,4 +1,7 @@
 from aiogram.filters import Command
+from keyboards.admin import admin_menu
+from config import ADMIN_ID
+from aiogram.filters import Command
 from aiogram.types import Message
 
 from config import ADMIN_ID
@@ -95,3 +98,18 @@ async def pending_order(message: Message):
     await message.answer(
         f"⏳ سفارش {order_id} به حالت انتظار برگشت."
 )
+@router.message(Command("admin"))
+async def admin_panel(message: Message):
+
+    if message.from_user.id != ADMIN_ID:
+        return
+
+
+    await message.answer(
+        """
+🛠 پنل مدیریت کافی‌نت آنلاین
+
+یکی از گزینه‌ها را انتخاب کنید:
+        """,
+        reply_markup=admin_menu()
+    )
