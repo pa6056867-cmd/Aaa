@@ -1,3 +1,11 @@
+from config import ADMIN_ID
+await message.bot.send_message(
+    221048265,
+    text
+await message.bot.send_message(
+    ADMIN_ID,
+    text
+)
 from aiogram import Router, F
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
@@ -15,3 +23,87 @@ async def order_start(message: Message, state: FSMContext):
     await message.answer(
         "👤 لطفاً نام و نام خانوادگی خود را وارد کنید."
     )
+@router.message(OrderState.full_name)
+async def get_full_name(message: Message, state: FSMContext):
+
+    await state.update_data(
+        full_name=message.text
+    )
+
+    await state.set_state(
+        OrderState.phone
+    )
+
+    await message.answer(
+        "📱 شماره تماس خود را وارد کنید."
+    )@router.message(OrderState.phone)
+async def get_phone(message: Message, state: FSMContext):
+
+    await state.update_data(
+        phone=message.text
+    )
+
+    await state.set_state(
+        OrderState.service
+    )
+
+    await message.answer(
+        """
+📋 نوع خدمت را وارد کنید.
+
+مثال:
+
+ثبت نام کنکور
+
+یا
+
+کارت ملی
+"""
+    )@router.message(OrderState.service)
+async def get_service(message: Message, state: FSMContext):
+
+    await state.update_data(
+        service=message.text
+    )
+
+    await state.set_state(
+        OrderState.description
+    )
+
+    await message.answer(
+        "📝 توضیحات سفارش را بنویس."
+    )@router.message(OrderState.description)
+async def finish_order(message: Message, state: FSMContext):
+
+    await state.update_data(
+        description=message.text
+    )
+
+    data = await state.get_data()
+
+    text = f"""
+✅ سفارش جدید
+
+👤 نام:
+{data['full_name']}
+
+📱 شماره:
+{data['phone']}
+
+📋 خدمت:
+{data['service']}
+
+📝 توضیحات:
+{data['description']}
+"""
+
+    await message.answer(
+        "✅ درخواست شما ثبت شد."
+    )
+
+    await message.bot.send_message(
+        221048265,
+        text
+    )
+
+    await state.clear()
