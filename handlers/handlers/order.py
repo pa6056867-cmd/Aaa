@@ -1,5 +1,7 @@
 from database.crud import add_order
 from config import ADMIN_ID
+from database.crud import add_order
+from config import ADMIN_ID
 await message.bot.send_message(
     221048265,
     text
@@ -97,7 +99,12 @@ async def finish_order(message: Message, state: FSMContext):
 📝 توضیحات:
 {data['description']}
 """
-
+order_id = add_order(
+    data["full_name"],
+    data["phone"],
+    data["service"],
+    data["description"]
+    )
     await message.answer(
         "✅ درخواست شما ثبت شد."
     )
@@ -121,3 +128,37 @@ order_id = add_order(
 🆔 کد سفارش:
 {order_id}
     await state.clear()
+await message.bot.send_message(
+    ADMIN_ID,
+    f"""
+🆕 سفارش جدید
+
+🆔 کد سفارش: {order_id}
+
+👤 نام:
+{data['full_name']}
+
+📱 شماره:
+{data['phone']}
+
+📋 خدمت:
+{data['service']}
+
+📝 توضیحات:
+{data['description']}
+
+📌 وضعیت:
+در انتظار
+"""
+)
+await message.answer(
+    f"""
+✅ درخواست شما با موفقیت ثبت شد.
+
+🆔 کد رهگیری شما:
+
+{order_id}
+
+این کد را نگه دارید.
+"""
+)
