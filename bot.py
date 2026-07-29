@@ -1,3 +1,6 @@
+from handlers.news import router as news_router
+dp.include_router(news_router)
+
 from handlers.tracking import router as tracking_router
 from database.database import init_db
 from handlers.start import router as start_router
