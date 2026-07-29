@@ -100,6 +100,7 @@ async def finish_order(message: Message, state: FSMContext):
 {data['description']}
 """
 order_id = add_order(
+   message.from_user.id
     data["full_name"],
     data["phone"],
     data["service"],
