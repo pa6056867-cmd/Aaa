@@ -1,4 +1,9 @@
 from aiogram.filters import Command
+from aiogram.types import Message
+
+from config import ADMIN_ID
+from database.crud import update_status
+from aiogram.filters import Command
 
 from database.crud import get_all_orders
 
@@ -29,3 +34,64 @@ async def orders(message: Message):
         )
 
     await message.answer(text)
+@router.message(Command("done"))
+async def done_order(message: Message):
+
+    if message.from_user.id != ADMIN_ID:
+        return
+
+
+    try:
+
+        order_id = int(
+            message.text.split()[1]
+        )
+
+    except:
+
+        await message.answer(
+            "❌ فرمت درست:\n/done شماره سفارش"
+        )
+
+        return
+
+
+    update_status(
+        order_id,
+        "انجام شده"
+    )
+
+
+    await message.answer(
+        f"✅ سفارش {order_id} انجام شد."
+    )@router.message(Command("pending"))
+async def pending_order(message: Message):
+
+    if message.from_user.id != ADMIN_ID:
+        return
+
+
+    try:
+
+        order_id = int(
+            message.text.split()[1]
+        )
+
+    except:
+
+        await message.answer(
+            "❌ فرمت درست:\n/pending شماره سفارش"
+        )
+
+        return
+
+
+    update_status(
+        order_id,
+        "در انتظار"
+    )
+
+
+    await message.answer(
+        f"⏳ سفارش {order_id} به حالت انتظار برگشت."
+)
