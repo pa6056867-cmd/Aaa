@@ -1,3 +1,9 @@
+from aiogram.fsm.context import FSMContext
+
+from states.broadcast import BroadcastState
+
+from database.crud import get_all_users
+
 from database.crud import get_stats
 from aiogram.filters import Command
 from keyboards.admin import admin_menu
@@ -10,8 +16,67 @@ from database.crud import update_status
 from aiogram.filters import Command
 
 from database.crud import get_all_orders
+@router.message(F.text == "📢 پیام همگانی")
+async def broadcast_start(
+    message: Message,
+    state: FSMContext
+):
+
+    if message.from_user.id != ADMIN_ID:
+        return
 
 
+    await state.set_state(
+        BroadcastState.waiting_message
+    )
+
+
+    await message.answer(
+        "📢 متن پیام همگانی را ارسال کنید."
+    )
+@router.message(BroadcastState.waiting_message)
+async def send_broadcast(
+    message: Message,
+    state: FSMContext
+):
+
+    if message.from_user.id != ADMIN_ID:
+        return
+
+
+    users = get_all_users()
+
+
+    count = 0
+
+
+    for user in users:
+
+        try:
+
+            await message.bot.send_message(
+                user[0],
+                message.text
+            )
+
+            count += 1
+
+        except:
+
+            pass
+
+
+    await message.answer(
+        f"""
+✅ پیام ارسال شد.
+
+👥 تعداد دریافت‌کنندگان:
+{count}
+"""
+    )
+
+
+    await state.clear()
 @router.message(Command("orders"))
 async def orders(message: Message):
 
