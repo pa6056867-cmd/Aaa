@@ -1,3 +1,7 @@
+from handlers.start import router as start_router
+from handlers.services import router as services_router
+from handlers.order import router as order_router
+from handlers.admin import router as admin_router
 from handlers.request import router as request_router
 import asyncio
 import logging
@@ -20,7 +24,11 @@ dp.include_router(request_router)
     )
 
     dp = Dispatcher()
- dp.include_router(start_router)
+dp.include_router(start_router)
+dp.include_router(services_router)
+dp.include_router(order_router)
+dp.include_router(admin_router)
+dp.include_router(start_router)
     print("🤖 کافی‌نت آنلاین فعال شد")
 
 
