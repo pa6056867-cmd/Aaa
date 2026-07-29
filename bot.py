@@ -1,3 +1,4 @@
+from database.database import init_db
 from handlers.start import router as start_router
 from handlers.services import router as services_router
 from handlers.order import router as order_router
@@ -18,6 +19,7 @@ logging.basicConfig(
 
 dp.include_router(services_router)
 async def main():
+init_db()
 dp.include_router(request_router)
     bot = Bot(
         token=BOT_TOKEN
