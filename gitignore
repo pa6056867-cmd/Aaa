@@ -1,2 +1,4 @@
-BOT_TOKEN=8879141341:AAHw6Atwvg1XASLG2T2YaGM7pP0j6gIGs60
-ADMIN_ID=221048265
+.env
+__pycache__/
+*.pyc
+cafinet.db
