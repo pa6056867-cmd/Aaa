@@ -33,7 +33,7 @@ def init_db():
 
     cursor = conn.cursor()
 
-
+user_id INTEGER,
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS orders (
 
