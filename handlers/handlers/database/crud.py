@@ -82,3 +82,23 @@ def get_order(order_id):
     conn.close()
 
     return order
+def get_order(order_id):
+
+    conn = sqlite3.connect(DB_NAME)
+
+    cur = conn.cursor()
+
+    cur.execute(
+        """
+        SELECT id, full_name, phone, service, description, status
+        FROM orders
+        WHERE id=?
+        """,
+        (order_id,)
+    )
+
+    order = cur.fetchone()
+
+    conn.close()
+
+    return order
