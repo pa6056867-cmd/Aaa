@@ -1,3 +1,4 @@
+from database.crud import get_stats
 from aiogram.filters import Command
 from keyboards.admin import admin_menu
 from config import ADMIN_ID
@@ -113,3 +114,27 @@ async def admin_panel(message: Message):
         """,
         reply_markup=admin_menu()
     )
+@router.message(F.text == "📊 آمار")
+async def stats(message: Message):
+
+    if message.from_user.id != ADMIN_ID:
+        return
+
+
+    orders, users, income = get_stats()
+
+
+    await message.answer(
+        f"""
+📊 آمار کافی‌نت آنلاین
+
+👥 کاربران:
+{users}
+
+📋 سفارش‌ها:
+{orders}
+
+💰 مجموع درآمد:
+{income:,} تومان
+"""
+        )
