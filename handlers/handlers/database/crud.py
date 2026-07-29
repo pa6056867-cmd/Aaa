@@ -57,3 +57,28 @@ def add_order(
     conn.close()
 
     return order_id
+def get_order(order_id):
+
+    conn = get_connection()
+
+    cur = conn.cursor()
+
+    cur.execute(
+
+        """
+        SELECT *
+
+        FROM orders
+
+        WHERE id=?
+        """,
+
+        (order_id,)
+
+    )
+
+    order = cur.fetchone()
+
+    conn.close()
+
+    return order
