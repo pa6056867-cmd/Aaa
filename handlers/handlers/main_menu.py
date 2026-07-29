@@ -11,7 +11,7 @@ def main_menu():
     kb.button(text="📞 ارتباط با مدیر")
 
     kb.button(text="ℹ️ درباره ما")
-
+kb.button(text="🔎 پیگیری سفارش")
     kb.adjust(2)
 
     return kb.as_markup(
