@@ -162,3 +162,5 @@ await message.answer(
 این کد را نگه دارید.
 """
 )
+from database.crud import add_order
+from config import ADMIN_ID
