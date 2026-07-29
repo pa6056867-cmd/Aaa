@@ -1,3 +1,4 @@
+from handlers.tracking import router as tracking_router
 from database.database import init_db
 from handlers.start import router as start_router
 from handlers.services import router as services_router
@@ -42,4 +43,4 @@ dp.include_router(start_router)
 if __name__ == "__main__":
 
     asyncio.run(main())
-
+dp.include_router(tracking_router)
