@@ -44,3 +44,36 @@ if __name__ == "__main__":
 
     asyncio.run(main())
 dp.include_router(tracking_router)
+import asyncio
+
+from aiogram import Bot, Dispatcher
+
+from config import BOT_TOKEN
+
+from database.database import init_db
+
+
+async def main():
+
+    # ساخت دیتابیس
+    init_db()
+
+    # ساخت ربات
+    bot = Bot(
+        token=BOT_TOKEN
+    )
+
+    # مدیریت پیام‌ها
+    dp = Dispatcher()
+
+
+    print("🤖 کافی‌نت آنلاین فعال شد")
+
+
+    await dp.start_polling(bot)
+
+
+
+if __name__ == "__main__":
+
+    asyncio.run(main())
